@@ -7,6 +7,7 @@ use App\Models\Pergunta;
 use App\Http\Requests\StorePerguntaRequest;
 use Illuminate\Http\Request;
 
+
 class EventoController extends Controller
 {
     public function index()
@@ -25,7 +26,7 @@ class EventoController extends Controller
      */
     public function show(Evento $evento)
 {
-    $perguntas = $evento->perguntas()->latest()->paginate(10);
+    $perguntas = $evento->perguntas()->with('user')->latest()->paginate(10);
 
     return view('eventos.show', compact('evento', 'perguntas'));
 }
@@ -40,6 +41,7 @@ class EventoController extends Controller
 
         Pergunta::create([
             'evento_id' => $evento->id,
+            'user_id'   => auth()->id(), 
             'texto'     => $request->input('texto'),
             'status'    => 'pendente',
         ]);
