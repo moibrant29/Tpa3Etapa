@@ -23,7 +23,7 @@ class EventoController extends Controller
      * AÇÃO ESPERADA:
      * Refatore a query para filtrar pelo evento, ordenar pelas mais recentes e paginar de 10 em 10.
      */
-    ppublic function show(Evento $evento)
+    public function show(Evento $evento)
     {
         $perguntas = $evento->perguntas()
             ->where('is_public', true)
