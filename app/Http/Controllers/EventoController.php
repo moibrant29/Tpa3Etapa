@@ -7,6 +7,7 @@ use App\Models\Pergunta;
 use App\Http\Requests\StorePerguntaRequest;
 use Illuminate\Http\Request;
 
+
 class EventoController extends Controller
 {
     public function index()
@@ -24,15 +25,11 @@ class EventoController extends Controller
      * Refatore a query para filtrar pelo evento, ordenar pelas mais recentes e paginar de 10 em 10.
      */
     public function show(Evento $evento)
-    {
-        $perguntas = $evento->perguntas()
-            ->where('is_public', true)
-            ->with('user')
-            ->latest()
-            ->paginate(10);
-    
-        return view('eventos.show', compact('evento', 'perguntas'));
-    }
+{
+    $perguntas = $evento->perguntas()->latest()->paginate(10);
+
+    return view('eventos.show', compact('evento', 'perguntas'));
+}
 
     /**
      * TICKET #001 (BUG LEGADO DE SEGURANÇA):
@@ -44,6 +41,7 @@ class EventoController extends Controller
 
         Pergunta::create([
             'evento_id' => $evento->id,
+            'user_id'   => auth()->id(), 
             'texto'     => $request->input('texto'),
             'status'    => 'pendente',
         ]);
