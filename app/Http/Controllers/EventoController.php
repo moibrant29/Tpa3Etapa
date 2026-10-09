@@ -22,9 +22,10 @@ class EventoController extends Controller
         $perguntas = $evento->perguntas()
             ->where('is_public', true)
             ->with('user')
-            ->latest()
+            ->withCount('votos')
+            ->orderByDesc('votos_count')
             ->paginate(10);
-
+    
         return view('eventos.show', compact('evento', 'perguntas'));
     }
 

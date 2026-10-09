@@ -8,6 +8,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -51,5 +52,10 @@ class User extends Authenticatable
     public function perguntas(): HasMany
 {
     return $this->hasMany(Pergunta::class);
+}
+public function perguntasVotadas(): BelongsToMany
+{
+    return $this->belongsToMany(Pergunta::class, 'pergunta_user')
+        ->withTimestamps();
 }
 }
